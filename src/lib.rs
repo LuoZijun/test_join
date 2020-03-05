@@ -10,7 +10,7 @@ fn bench_iter_fold_format(b: &mut test::Bencher) {
     
     b.iter(|| {
         let _ = data.iter()
-            .fold(String::new(), |acc, s| format!("{}{}{}", acc, ", ", s));
+            .fold(String::with_capacity(data.len()), |acc, s| format!("{}{}{}", acc, ", ", s));
     })
 }
 
@@ -19,7 +19,7 @@ fn bench_iter_fold_push_str(b: &mut test::Bencher) {
     let data = vec!["See", "what", "landed", "recently", "in", "Firefox", "Nightly", "!"];
     
     b.iter(|| {
-        let _ = data.iter().fold(String::new(), |mut acc, s| {
+        let _ = data.iter().fold(String::with_capacity(data.len()), |mut acc, s| {
             acc.push_str(", ");
             acc.push_str(s);
             acc
